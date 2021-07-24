@@ -1,12 +1,17 @@
 import React from "react";
-import Login from "./modules/auth/Login";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Login from "./modules/auth/Login/view";
+import Homepage from "./modules/home/view.jsx";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Login />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact component={Login} />
+        <Route path="/chat" exact component={Homepage} />
+      </Switch>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
