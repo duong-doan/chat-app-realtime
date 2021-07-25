@@ -1,20 +1,26 @@
 import React from "react";
-import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import { useState } from "react";
+import styled from "styled-components";
+
+const NavbarStyled = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  height: 100px;
+  img {
+    width: 80px;
+    height: 80px;
+  }
+`;
 
 export default function NavSidebar() {
-  const [open, setOpen] = useState(true);
-
   return (
-    <ListItem button>
-      <ListItemIcon>
-        <InboxIcon />
-      </ListItemIcon>
-      <ListItemText primary="Inbox" onClick={() => setOpen((prev) => !prev)} />
-      {open ? <ExpandLess /> : <ExpandMore />}
-    </ListItem>
+    <NavbarStyled>
+      <img
+        src="https://image.flaticon.com/icons/png/512/147/147140.png"
+        alt=""
+      />
+      <h4>Duong Doan</h4>
+    </NavbarStyled>
   );
 }

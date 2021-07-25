@@ -11,15 +11,33 @@ const LoginStyled = styled.div`
 `;
 
 export default function Login() {
+  const handleClickFb = () => {
+    alert("fb");
+  };
+
+  const handleClickGg = () => {
+    alert("Gg");
+  };
+
   return (
     <LoginStyled>
       <Typography variant="h2" className="my-3">
         My Chat App
       </Typography>
-      <Button variant="outlined" color="primary" className="my-2">
+      <Button
+        variant="outlined"
+        color="primary"
+        className="my-2"
+        onclick={handleClickFb}
+      >
         Login with Facebook
       </Button>
-      <Button variant="outlined" color="secondary" className="my-2">
+      <Button
+        variant="outlined"
+        color="secondary"
+        className="my-2"
+        onclick={handleClickGg}
+      >
         Login with Google
       </Button>
     </LoginStyled>
