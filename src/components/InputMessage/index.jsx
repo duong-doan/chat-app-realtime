@@ -4,6 +4,7 @@ import { Button, TextField } from "@material-ui/core";
 
 const InputMessageStyled = styled.div`
   height: 100px;
+  width: 100%;
   display: flex;
   align-items: center;
 

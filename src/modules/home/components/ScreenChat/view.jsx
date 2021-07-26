@@ -7,14 +7,23 @@ import NavScreenChat from "../../../../components/NavScreenChat";
 const ScreenChatStyled = styled.div`
   display: flex;
   flex-direction: column;
+
+  .wrap-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
 `;
 
 export default function ScreenChat() {
   return (
     <ScreenChatStyled className="col-9">
       <NavScreenChat />
-      <ListMessages />
-      <InputMessage />
+      <div className="wrap-content">
+        <ListMessages />
+        <InputMessage />
+      </div>
     </ScreenChatStyled>
   );
 }

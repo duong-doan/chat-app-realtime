@@ -1,10 +1,21 @@
 import React from "react";
 import styled from "styled-components";
+import Message from "../Message";
 
 const ListMessagesStyled = styled.div`
-  height: calc(100% - 200px);
+  max-height: 700px;
+  overflow-y: auto;
 `;
 
 export default function ListMessages(props) {
-  return <ListMessagesStyled>list mes</ListMessagesStyled>;
+  return (
+    <ListMessagesStyled>
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+      <Message />
+    </ListMessagesStyled>
+  );
 }
