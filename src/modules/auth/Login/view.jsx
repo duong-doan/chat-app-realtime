@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "../../../components/Button";
 import { Typography } from "@material-ui/core";
-import {auth, fbProvider} from "../../../firebase/configFirebase";
 import { useHistory } from "react-router-dom";
-import * as authActions from './store/actions'
+import * as authActions from "./store/actions";
 import { useDispatch } from "react-redux";
+import useAuth from "./services/useAuth";
 
 const LoginStyled = styled.div`
   display: flex;
@@ -14,24 +14,17 @@ const LoginStyled = styled.div`
   flex-direction: column;
 `;
 
-export default function Login() {
-  const dispatch = useDispatch()
-  const history = useHistory()
+const Login = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { isRequesting, isAuthen } = useAuth();
+
+  useEffect(() => {
+    if (isAuthen && !isRequesting) history.push("/chat");
+  }, [isRequesting, isAuthen]);
 
   const handleClickFb = () => {
-    auth.signInWithPopup(fbProvider).then((user) => {
-      if(user) {
-        const {additionalUserInfo : {profile: {email, name, id, picture}}} = user
-        const getUserFb = {
-          email,
-          name,
-          id,
-          photoUrl: picture?.data?.url
-        }
-        dispatch(authActions.getUserProfileSuccess(getUserFb))
-        history.push('/chat')
-      }
-    })
+    dispatch(authActions.getUserProfileRequest());
   };
 
   const handleClickGg = () => {
@@ -61,4 +54,6 @@ export default function Login() {
       </Button>
     </LoginStyled>
   );
-}
+};
+
+export default Login;

@@ -29,7 +29,7 @@ const InputMessageStyled = styled.div`
   }
 `;
 
-export default function InputMessage(props) {
+export default function InputMessage() {
   const [value, setValue] = useState("");
 
   const handleChange = (event) => {

@@ -17,7 +17,7 @@ const NavScreenChatStyled = styled.div`
   }
 `;
 
-export default function NavScreenChat(props) {
+export default function NavScreenChat() {
   return (
     <NavScreenChatStyled>
       <div className="d-flex align-items-center">

@@ -7,7 +7,7 @@ const ListMessagesStyled = styled.div`
   overflow-y: auto;
 `;
 
-export default function ListMessages(props) {
+export default function ListMessages() {
   return (
     <ListMessagesStyled>
       <Message />
