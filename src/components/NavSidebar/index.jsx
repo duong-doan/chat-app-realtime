@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+import { Avatar } from "@material-ui/core";
 
 const NavbarStyled = styled.div`
   display: flex;
@@ -13,14 +15,17 @@ const NavbarStyled = styled.div`
   }
 `;
 
-export default function NavSidebar() {
+export default function NavSidebar({ name }) {
   return (
     <NavbarStyled>
-      <img
-        src="https://image.flaticon.com/icons/png/512/147/147140.png"
-        alt=""
-      />
-      <h4>Duong Doan</h4>
+      <Avatar alt={`${name.charAt(0)}`} src="/static/images/avatar/1.jpg" />
+      <h4>{name}</h4>
     </NavbarStyled>
   );
 }
+
+NavSidebar.propTypes = {
+  name: PropTypes.string,
+};
+
+NavSidebar.defaultProps = {};

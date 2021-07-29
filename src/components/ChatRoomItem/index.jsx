@@ -1,38 +1,38 @@
+import { Avatar, ListItem, makeStyles } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
+import Box from "@material-ui/core/Box";
 
-const ChatRoomItemStyled = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 16px;
-  margin-bottom: 20px;
+const ChatRoomItemStyled = styled.div``;
 
-  img {
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
-  }
+const useStyles = makeStyles({
+  customBox: {
+    display: "-webkit-box",
+    boxOrient: "vertical",
+    lineClamp: 1,
+    wordBreak: "break-all",
+    overflow: "hidden",
+    fontSize: "1rem",
+  },
+});
 
-  span {
-    margin-bottom: 25px;
-  }
-`;
-
-export default function ChatRoomItem() {
+export default function ChatRoomItem({ name }) {
+  const classes = useStyles();
   return (
     <ChatRoomItemStyled>
-      <div className="d-flex">
-        <img
-          src="https://image.flaticon.com/icons/png/512/147/147140.png"
-          alt=""
-        />
-        <div>
-          <h5 className="m-0">Hai dot</h5>
-          <p className="m-0">abc</p>
-        </div>
-      </div>
-      <span>14:25</span>
+      <ListItem button>
+        <Box mr={2}>
+          <Avatar alt="avatar" src="/static/images/avatar/1.jpg" />
+        </Box>
+        <Box className={classes.customBox}>{name}</Box>
+      </ListItem>
     </ChatRoomItemStyled>
   );
 }
+
+ChatRoomItem.propTypes = {
+  name: PropTypes.string,
+};
+
+ChatRoomItem.defaultProps = {};
