@@ -1,16 +1,20 @@
 import React from "react";
+import styled from "styled-components";
 import ChatRoom from "../../../../components/ChatRoom";
 import NavSidebar from "../../../../components/NavSidebar";
 import useDetail from "../../services/useDetail";
 
+const SidebarStyled = styled.div`
+  box-shadow: 1px 0 4px rgba(0,0,0,.2);
+`
+
 export default function Sidebar() {
   const { userProfile } = useDetail();
-  console.log(userProfile);
-
+console.log(userProfile)
   return (
-    <div className="col-3">
+    <SidebarStyled className="col-3">
       <NavSidebar name={userProfile.name} />
       <ChatRoom />
-    </div>
+    </SidebarStyled>
   );
 }

@@ -8,7 +8,7 @@ const ButtonComponent = ({
   variant,
   onclick,
   className,
-}: ButtonComponent.propTypes) => {
+}) => {
   const handleClick = () => {
     onclick();
   };
@@ -26,11 +26,11 @@ const ButtonComponent = ({
 };
 
 ButtonComponent.propTypes = {
-  children: PropTypes.string,
-  color: PropTypes.string,
-  variant: PropTypes.string,
-  onclick: PropTypes.func,
-  className: PropTypes.string,
+  children: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  variant: PropTypes.string.isRequired,
+  onclick: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 ButtonComponent.defaultProps = {};
