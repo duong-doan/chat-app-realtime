@@ -23,7 +23,10 @@ export default function ChatRoomItem({ name }) {
     <ChatRoomItemStyled>
       <ListItem button>
         <Box mr={2}>
-          <Avatar alt="avatar" src="/static/images/avatar/1.jpg" />
+          <Avatar
+            alt={name.charAt(0).toUpperCase()}
+            src="/static/images/avatar/1.jpg"
+          />
         </Box>
         <Box className={classes.customBox}>{name}</Box>
       </ListItem>

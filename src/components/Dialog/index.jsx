@@ -8,8 +8,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
+import { useState } from "react";
 
-export default function CustomDialog({ openDialog, closeDialog }) {
+export default function CustomDialog({ openDialog, closeDialog, roomName }) {
+  const [value, setValue] = useState("");
+
   const useStyles = makeStyles({
     customDialogTitle: {
       fontWeight: "bold",
@@ -24,6 +27,15 @@ export default function CustomDialog({ openDialog, closeDialog }) {
   const handleCloseDialog = () => {
     closeDialog();
   };
+  const handleOnChangeInput = (e) => {
+    setValue(e.target.value);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    roomName(value);
+    setValue("");
+  };
+
   return (
     <div>
       <Dialog open={openDialog} aria-labelledby="form-dialog-title">
@@ -35,15 +47,19 @@ export default function CustomDialog({ openDialog, closeDialog }) {
         </DialogTitle>
         <DialogContent>
           {/* <DialogContentText>Name of room</DialogContentText> */}
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Room name"
-            placeholder=""
-            type="text"
-            fullWidth
-          />
+          <form action="" onSubmit={handleSubmit}>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Room name"
+              placeholder=""
+              type="text"
+              value={value}
+              onChange={handleOnChangeInput}
+              fullWidth
+            />
+          </form>
         </DialogContent>
         <DialogActions>
           <Button
@@ -65,6 +81,7 @@ export default function CustomDialog({ openDialog, closeDialog }) {
 CustomDialog.propTypes = {
   openDialog: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
+  roomName: PropTypes.string,
 };
 
 CustomDialog.defaultProps = {};

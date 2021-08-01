@@ -15,17 +15,18 @@ const NavbarStyled = styled.div`
   }
 `;
 
-export default function NavSidebar({ name }) {
+export default function NavSidebar({ name, photoUrl }) {
   return (
     <NavbarStyled>
-      <Avatar alt={`${name.charAt(0)}`} src="/static/images/avatar/1.jpg" />
+      <Avatar alt={`${name.charAt(0)}`} src={photoUrl} />
       <h4>{name}</h4>
     </NavbarStyled>
   );
 }
 
 NavSidebar.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  photoUrl: PropTypes.string,
 };
 
 NavSidebar.defaultProps = {};

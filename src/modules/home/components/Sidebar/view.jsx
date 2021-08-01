@@ -5,15 +5,14 @@ import NavSidebar from "../../../../components/NavSidebar";
 import useDetail from "../../services/useDetail";
 
 const SidebarStyled = styled.div`
-  box-shadow: 1px 0 4px rgba(0,0,0,.2);
-`
+  box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
+`;
 
 export default function Sidebar() {
   const { userProfile } = useDetail();
-console.log(userProfile)
   return (
     <SidebarStyled className="col-3">
-      <NavSidebar name={userProfile.name} />
+      <NavSidebar photoUrl={userProfile.photoUrl} name={userProfile.name} />
       <ChatRoom />
     </SidebarStyled>
   );

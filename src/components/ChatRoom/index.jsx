@@ -9,6 +9,9 @@ import React, { Fragment } from "react";
 import { useState } from "react";
 import ChatRoomItem from "../ChatRoomItem";
 import Dialog from "../Dialog/index";
+import useDetail from "../../modules/home/services/useDetail";
+import useFirebase from "../../services/useFirebase";
+import { useEffect } from "react";
 
 const useStyles = makeStyles({
   customSubHeader: {
@@ -29,13 +32,38 @@ const useStyles = makeStyles({
 });
 
 export default function ChatRoom() {
+  const [rooms, setRooms] = useState([]);
+  const { addDocument, roomListFirebase } = useFirebase();
+  const {
+    userProfile: { uid },
+  } = useDetail();
   const [openDialog, setOpenDialog] = useState(false);
   const classes = useStyles();
+  useEffect(() => {
+    roomListFirebase("roomLists").onSnapshot((snapshot) => {
+      const documents = snapshot.docs.map((doc) => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        };
+      });
+      setRooms(documents);
+    });
+  }, []);
+
   const handleClickAddRoom = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  };
+  const handleGetRoomName = (roomName) => {
+    setOpenDialog(false);
+    const roomData = {
+      name: roomName,
+      members: [uid],
+    };
+    addDocument("roomLists", roomData);
   };
   return (
     <Fragment>
@@ -55,11 +83,15 @@ export default function ChatRoom() {
           </ListSubheader>
         }
       >
-        <ChatRoomItem name="hoi ban daoasdkjhasdkjhaksjdhakjshdkjashdjkahskdjhaksjdh" />
-        <ChatRoomItem name="hoi phu nu viet nam" />
-        <ChatRoomItem name="hoi nhau" />
+        {rooms.map((room) => (
+          <ChatRoomItem key={room.id} name={room.name} />
+        ))}
       </List>
-      <Dialog openDialog={openDialog} closeDialog={handleCloseDialog} />
+      <Dialog
+        openDialog={openDialog}
+        closeDialog={handleCloseDialog}
+        roomName={handleGetRoomName}
+      />
     </Fragment>
   );
 }
