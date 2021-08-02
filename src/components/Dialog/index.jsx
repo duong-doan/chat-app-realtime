@@ -81,7 +81,7 @@ export default function CustomDialog({ openDialog, closeDialog, roomName }) {
 CustomDialog.propTypes = {
   openDialog: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
-  roomName: PropTypes.string,
+  roomName: PropTypes.func.isRequired,
 };
 
 CustomDialog.defaultProps = {};

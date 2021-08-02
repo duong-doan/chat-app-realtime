@@ -5,31 +5,21 @@ import {
   ListSubheader,
   makeStyles,
 } from "@material-ui/core";
-import React, { Fragment } from "react";
+import React from "react";
 import { useState } from "react";
 import ChatRoomItem from "../ChatRoomItem";
 import Dialog from "../Dialog/index";
 import useDetail from "../../modules/home/services/useDetail";
 import useFirebase from "../../services/useFirebase";
 import { useEffect } from "react";
-
-const useStyles = makeStyles({
-  customSubHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "20px",
-  },
-  customBox: {
-    fontSize: "1rem",
-    color: "purple",
-  },
-  customBtn: {
-    fontSize: "1.2rem",
-    color: "purple",
-    borderColor: "purple",
-  },
-});
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+const ChatRoomStyled = styled.div`
+  a {
+    text-decoration: none;
+    color: #333;
+  }
+`;
 
 export default function ChatRoom() {
   const [rooms, setRooms] = useState([]);
@@ -38,6 +28,23 @@ export default function ChatRoom() {
     userProfile: { uid },
   } = useDetail();
   const [openDialog, setOpenDialog] = useState(false);
+  const useStyles = makeStyles({
+    customSubHeader: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: "20px",
+    },
+    customBox: {
+      fontSize: "1rem",
+      color: "purple",
+    },
+    customBtn: {
+      fontSize: "1.2rem",
+      color: "purple",
+      borderColor: "purple",
+    },
+  });
   const classes = useStyles();
   useEffect(() => {
     roomListFirebase("roomLists").onSnapshot((snapshot) => {
@@ -66,7 +73,7 @@ export default function ChatRoom() {
     addDocument("roomLists", roomData);
   };
   return (
-    <Fragment>
+    <ChatRoomStyled>
       <List
         component="nav"
         aria-labelledby="nested-list-subheader"
@@ -83,8 +90,10 @@ export default function ChatRoom() {
           </ListSubheader>
         }
       >
-        {rooms.map((room) => (
-          <ChatRoomItem key={room.id} name={room.name} />
+        {rooms.map((room, index) => (
+          <Link to={`/chat/${room.id}`} key={index}>
+            <ChatRoomItem name={room.name} />
+          </Link>
         ))}
       </List>
       <Dialog
@@ -92,6 +101,6 @@ export default function ChatRoom() {
         closeDialog={handleCloseDialog}
         roomName={handleGetRoomName}
       />
-    </Fragment>
+    </ChatRoomStyled>
   );
 }

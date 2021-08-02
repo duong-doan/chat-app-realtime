@@ -1,27 +1,23 @@
 import { Avatar, ListItem, makeStyles } from "@material-ui/core";
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 
-const ChatRoomItemStyled = styled.div``;
-
-const useStyles = makeStyles({
-  customBox: {
-    display: "-webkit-box",
-    boxOrient: "vertical",
-    lineClamp: 1,
-    wordBreak: "break-all",
-    overflow: "hidden",
-    fontSize: "1rem",
-  },
-});
-
 export default function ChatRoomItem({ name }) {
+  const useStyles = makeStyles({
+    customBox: {
+      display: "-webkit-box",
+      boxOrient: "vertical",
+      lineClamp: 1,
+      wordBreak: "break-all",
+      overflow: "hidden",
+      fontSize: "16px",
+    },
+  });
   const classes = useStyles();
   return (
-    <ChatRoomItemStyled>
-      <ListItem button>
+    <div>
+      <ListItem>
         <Box mr={2}>
           <Avatar
             alt={name.charAt(0).toUpperCase()}
@@ -30,7 +26,7 @@ export default function ChatRoomItem({ name }) {
         </Box>
         <Box className={classes.customBox}>{name}</Box>
       </ListItem>
-    </ChatRoomItemStyled>
+    </div>
   );
 }
 

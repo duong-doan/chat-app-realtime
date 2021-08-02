@@ -6,7 +6,6 @@ import { useHistory } from "react-router-dom";
 import * as authActions from "./store/actions";
 import { useDispatch } from "react-redux";
 import useAuth from "./services/useAuth";
-
 const LoginStyled = styled.div`
   display: flex;
   justify-contents: center;
