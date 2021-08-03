@@ -7,7 +7,8 @@ function* getRoomFirebase() {
   try {
     const result = yield roomListFirebase("roomLists")
       .where("isRoom", "==", "true")
-      .get();
+      .get()
+      .then();
     // onSnapshot(
     //   (snapshot) => {
     //     const documents = snapshot.docs.map((doc) => {
