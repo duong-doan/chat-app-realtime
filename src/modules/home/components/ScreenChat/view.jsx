@@ -17,8 +17,7 @@ const ScreenChatStyled = styled.div`
   }
 `;
 
-export default function ScreenChat(props) {
-  console.log(props);
+export default function ScreenChat() {
   return (
     <ScreenChatStyled className="col-9">
       <NavScreenChat />

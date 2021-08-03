@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Box from "@material-ui/core/Box";
 
-export default function ChatRoomItem({ name }) {
+export default function ChatRoomItem({ name, isClickRoom, onClickRoom }) {
   const useStyles = makeStyles({
     customBox: {
       display: "-webkit-box",
@@ -13,10 +13,20 @@ export default function ChatRoomItem({ name }) {
       overflow: "hidden",
       fontSize: "16px",
     },
+    customWrap: {
+      backgroundColor: "purple",
+      color: "white",
+    },
   });
   const classes = useStyles();
+  const handleClickRoom = () => {
+    onClickRoom();
+  };
   return (
-    <div>
+    <div
+      className={isClickRoom ? classes.customWrap : ""}
+      onClick={handleClickRoom}
+    >
       <ListItem>
         <Box mr={2}>
           <Avatar
@@ -32,6 +42,8 @@ export default function ChatRoomItem({ name }) {
 
 ChatRoomItem.propTypes = {
   name: PropTypes.string,
+  isClickRoom: PropTypes.bool,
+  onClickRoom: PropTypes.func,
 };
 
 ChatRoomItem.defaultProps = {};

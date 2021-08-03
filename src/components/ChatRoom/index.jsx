@@ -7,13 +7,14 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
-import ChatRoomItem from "../ChatRoomItem";
+// import ChatRoomItem from "../ChatRoomItem";
 import Dialog from "../Dialog/index";
-import useDetail from "../../modules/home/services/useDetail";
-import useFirebase from "../../services/useFirebase";
+// import useDetail from "../../modules/home/services/useDetail";
+import { getRoomsFirebaseRequest } from "../../modules/home/store/actions";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 const ChatRoomStyled = styled.div`
   a {
     text-decoration: none;
@@ -22,11 +23,12 @@ const ChatRoomStyled = styled.div`
 `;
 
 export default function ChatRoom() {
-  const [rooms, setRooms] = useState([]);
-  const { addDocument, roomListFirebase } = useFirebase();
-  const {
-    userProfile: { uid },
-  } = useDetail();
+  // const [activeId, setActiveId] = useState(null);
+  // const [rooms, setRooms] = useState([]);
+  // const {
+  //   userProfile: { uid },
+  // } = useDetail();
+  const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
   const useStyles = makeStyles({
     customSubHeader: {
@@ -47,30 +49,24 @@ export default function ChatRoom() {
   });
   const classes = useStyles();
   useEffect(() => {
-    roomListFirebase("roomLists").onSnapshot((snapshot) => {
-      const documents = snapshot.docs.map((doc) => {
-        return {
-          ...doc.data(),
-          id: doc.id,
-        };
-      });
-      setRooms(documents);
-    });
+    dispatch(getRoomsFirebaseRequest());
   }, []);
-
+  // const handleClickRoom = (id) => {
+  //   setActiveId(id);
+  // };
   const handleClickAddRoom = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  const handleGetRoomName = (roomName) => {
+  const handleGetRoomName = () => {
     setOpenDialog(false);
-    const roomData = {
-      name: roomName,
-      members: [uid],
-    };
-    addDocument("roomLists", roomData);
+    // const roomData = {
+    //   name: roomName,
+    //   members: [uid],
+    // };
+    // addDocument("roomLists", roomData);
   };
   return (
     <ChatRoomStyled>
@@ -89,13 +85,16 @@ export default function ChatRoom() {
             </Button>
           </ListSubheader>
         }
-      >
-        {rooms.map((room, index) => (
-          <Link to={`/chat/${room.id}`} key={index}>
-            <ChatRoomItem name={room.name} />
-          </Link>
-        ))}
-      </List>
+      ></List>
+      {/* {rooms.map((room, index) => (
+        <Link to={`/chat/${room.id}`} key={index}>
+          <ChatRoomItem
+            name={room.name}
+            isClickRoom={activeId === room.id ? true : false}
+            onClickRoom={() => handleClickRoom(room.id)}
+          />
+        </Link>
+      ))} */}
       <Dialog
         openDialog={openDialog}
         closeDialog={handleCloseDialog}

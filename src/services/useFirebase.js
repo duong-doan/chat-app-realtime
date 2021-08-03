@@ -8,8 +8,7 @@ export default function useFirebase() {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
   };
-  const roomListFirebase = (collection) =>
-    db.collection(collection).orderBy("createdAt");
+  const roomListFirebase = (collection) => db.collection(collection);
 
   return {
     signInFbFirebase,
