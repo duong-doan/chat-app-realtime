@@ -10,19 +10,20 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import { useState } from "react";
 
+const useStyles = makeStyles({
+  customDialogTitle: {
+    fontWeight: "bold",
+    backgroundColor: "purple",
+    color: "white",
+  },
+  customBtnAdd: {
+    color: "purple",
+  },
+});
+
 export default function CustomDialog({ openDialog, closeDialog, roomName }) {
   const [value, setValue] = useState("");
 
-  const useStyles = makeStyles({
-    customDialogTitle: {
-      fontWeight: "bold",
-      backgroundColor: "purple",
-      color: "white",
-    },
-    customBtnAdd: {
-      color: "purple",
-    },
-  });
   const classes = useStyles();
   const handleCloseDialog = () => {
     closeDialog();

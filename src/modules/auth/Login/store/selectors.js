@@ -1,6 +1,5 @@
 import { createSelector } from "reselect";
 import { useSelector } from "react-redux";
-// import { get } from "lodash";
 
 const makeGetAuthProfile = () => {
   const selectAuthProfile = createSelector(

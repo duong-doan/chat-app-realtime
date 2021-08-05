@@ -18,14 +18,14 @@ const NavbarStyled = styled.div`
 export default function NavSidebar({ name, photoUrl }) {
   return (
     <NavbarStyled>
-      <Avatar alt={`${name.charAt(0)}`} src={photoUrl} />
-      <h4>{name}</h4>
+      <Avatar alt="image" src={photoUrl} />
+      {name && <h4>{name}</h4>}
     </NavbarStyled>
   );
 }
 
 NavSidebar.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   photoUrl: PropTypes.string,
 };
 

@@ -1,3 +1,8 @@
+import firebase, {
+  auth,
+  db,
+  fbProvider,
+} from "../../../../firebase/configFirebase";
 import {
   makeGetAuthProfile,
   makeGetIsRequesting,
@@ -14,3 +19,12 @@ export default function useAuth() {
     isAuthen,
   };
 }
+
+export const signInFbFirebase = () => auth.signInWithPopup(fbProvider);
+
+export const addDocument = (collection, data) => {
+  db.collection(collection).add({
+    ...data,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+};

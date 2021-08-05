@@ -1,8 +1,9 @@
 import * as types from "./constants";
 
-export const getRoomsFirebaseRequest = () => {
+export const getRoomsFirebaseRequest = (data) => {
   return {
     type: types.GET_ROOMS_REQUEST,
+    payload: data,
   };
 };
 

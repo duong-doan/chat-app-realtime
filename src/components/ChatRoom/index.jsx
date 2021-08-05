@@ -7,14 +7,14 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
-// import ChatRoomItem from "../ChatRoomItem";
+import ChatRoomItem from "../ChatRoomItem";
 import Dialog from "../Dialog/index";
-// import useDetail from "../../modules/home/services/useDetail";
-import { getRoomsFirebaseRequest } from "../../modules/home/store/actions";
-import { useEffect } from "react";
-// import { Link } from "react-router-dom";
+import useDetail from "../../modules/home/services/useDetail";
+import useFirebase from "../../services/useFirebase";
+import { addDocument } from "../../modules/auth/Login/services/useAuth";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useMemo } from "react";
 const ChatRoomStyled = styled.div`
   a {
     text-decoration: none;
@@ -22,51 +22,56 @@ const ChatRoomStyled = styled.div`
   }
 `;
 
+const useStyles = makeStyles({
+  customSubHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "20px",
+  },
+  customBox: {
+    fontSize: "1rem",
+    color: "purple",
+  },
+  customBtn: {
+    fontSize: "1.2rem",
+    color: "purple",
+    borderColor: "purple",
+  },
+});
+
 export default function ChatRoom() {
-  // const [activeId, setActiveId] = useState(null);
-  // const [rooms, setRooms] = useState([]);
-  // const {
-  //   userProfile: { uid },
-  // } = useDetail();
-  const dispatch = useDispatch();
+  const [activeId, setActiveId] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const useStyles = makeStyles({
-    customSubHeader: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: "20px",
-    },
-    customBox: {
-      fontSize: "1rem",
-      color: "purple",
-    },
-    customBtn: {
-      fontSize: "1.2rem",
-      color: "purple",
-      borderColor: "purple",
-    },
-  });
+  const {
+    userProfile: { uid },
+  } = useDetail();
   const classes = useStyles();
-  useEffect(() => {
-    dispatch(getRoomsFirebaseRequest());
-  }, []);
-  // const handleClickRoom = (id) => {
-  //   setActiveId(id);
-  // };
+  const conditionRooms = useMemo(
+    () => ({
+      fieldCompare: "members",
+      operator: "array-contains",
+      valueCompare: uid,
+    }),
+    [uid]
+  );
+  const rooms = useFirebase("roomLists", conditionRooms);
+  const handleClickRoom = (id) => {
+    setActiveId(id);
+  };
   const handleClickAddRoom = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  const handleGetRoomName = () => {
+  const handleGetRoomName = (roomName) => {
     setOpenDialog(false);
-    // const roomData = {
-    //   name: roomName,
-    //   members: [uid],
-    // };
-    // addDocument("roomLists", roomData);
+    const roomData = {
+      name: roomName,
+      members: [uid],
+    };
+    addDocument("roomLists", roomData);
   };
   return (
     <ChatRoomStyled>
@@ -86,7 +91,7 @@ export default function ChatRoom() {
           </ListSubheader>
         }
       ></List>
-      {/* {rooms.map((room, index) => (
+      {rooms.map((room, index) => (
         <Link to={`/chat/${room.id}`} key={index}>
           <ChatRoomItem
             name={room.name}
@@ -94,7 +99,7 @@ export default function ChatRoom() {
             onClickRoom={() => handleClickRoom(room.id)}
           />
         </Link>
-      ))} */}
+      ))}
       <Dialog
         openDialog={openDialog}
         closeDialog={handleCloseDialog}

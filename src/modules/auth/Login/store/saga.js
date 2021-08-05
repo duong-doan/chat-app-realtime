@@ -1,9 +1,8 @@
 import { fork, put, takeEvery } from "redux-saga/effects";
-import useFirebase from "../../../../services/useFirebase";
+import { addDocument, signInFbFirebase } from "../services/useAuth";
 import * as types from "./constants";
 
 function* getUser() {
-  const { signInFbFirebase, addDocument } = useFirebase();
   const result = yield signInFbFirebase();
   try {
     const {

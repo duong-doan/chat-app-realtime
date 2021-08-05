@@ -2,28 +2,14 @@ import { fork, put, takeLatest } from "redux-saga/effects";
 import * as types from "./constants";
 import useFirebase from "../../../services/useFirebase";
 
-function* getRoomFirebase() {
-  const { roomListFirebase } = useFirebase();
+function* getRoomFirebase(action) {
+  const uid = action.payload;
   try {
-    const result = yield roomListFirebase("roomLists")
-      .where("isRoom", "==", "true")
-      .get()
-      .then();
-    // onSnapshot(
-    //   (snapshot) => {
-    //     const documents = snapshot.docs.map((doc) => {
-    //       return {
-    //         ...doc.data(),
-    //         id: doc.id,
-    //       };
-    //     });
-    //     return documents;
-    //     // if (documents) {
-    //     //   // console.log("saga", documents);
-    //     //   // put({ type: types.GET_ROOMS_SUCCESS, payload: documents });
-    //     // }
-    //   }
-    // );
+    const result = yield useFirebase("roomLists", {
+      fieldCompare: "members",
+      operator: "array-contains",
+      valueCompare: uid,
+    });
     console.log(result);
     yield put({ type: types.GET_ROOMS_SUCCESS, payload: { name: "doan" } });
   } catch (err) {
