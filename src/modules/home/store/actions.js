@@ -20,3 +20,10 @@ export const getRoomsFirebaseFail = (err) => {
     payload: err,
   };
 };
+
+export const getActiveRoomId = (id) => {
+  return {
+    type: types.GET_ACTIVE_ROOM_ID,
+    payload: id,
+  };
+};

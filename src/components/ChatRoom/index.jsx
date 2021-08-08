@@ -15,6 +15,14 @@ import { addDocument } from "../../modules/auth/Login/services/useAuth";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useMemo } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  getRoomsFirebaseSuccess,
+  getActiveRoomId,
+} from "../../modules/home/store/actions";
+import { db } from "../../firebase/configFirebase";
+
 const ChatRoomStyled = styled.div`
   a {
     text-decoration: none;
@@ -28,25 +36,30 @@ const useStyles = makeStyles({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: "20px",
+    position: "relative",
+    overflowX: "hidden",
   },
   customBox: {
-    fontSize: "1rem",
+    fontSize: "1.6rem",
     color: "purple",
+    width: "80%",
   },
   customBtn: {
     fontSize: "1.2rem",
     color: "purple",
     borderColor: "purple",
+    width: "20%",
   },
 });
 
 export default function ChatRoom() {
-  const [activeId, setActiveId] = useState(null);
+  const [activeRoomId, setActiveRoomId] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const {
     userProfile: { uid },
   } = useDetail();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const conditionRooms = useMemo(
     () => ({
       fieldCompare: "members",
@@ -56,8 +69,12 @@ export default function ChatRoom() {
     [uid]
   );
   const rooms = useFirebase("roomLists", conditionRooms);
+  useEffect(() => {
+    dispatch(getRoomsFirebaseSuccess(rooms));
+    dispatch(getActiveRoomId(activeRoomId));
+  }, [rooms, activeRoomId]);
   const handleClickRoom = (id) => {
-    setActiveId(id);
+    setActiveRoomId(id);
   };
   const handleClickAddRoom = () => {
     setOpenDialog(true);
@@ -65,14 +82,20 @@ export default function ChatRoom() {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  const handleGetRoomName = (roomName) => {
+  const handleGetRoomName = (value) => {
+    const { name, description } = value;
     setOpenDialog(false);
     const roomData = {
-      name: roomName,
+      name,
+      description,
       members: [uid],
     };
     addDocument("roomLists", roomData);
   };
+  const handleClickDeleteRoom = (id) => {
+    db.collection("roomLists").doc(id).delete();
+  };
+
   return (
     <ChatRoomStyled>
       <List
@@ -95,15 +118,18 @@ export default function ChatRoom() {
         <Link to={`/chat/${room.id}`} key={index}>
           <ChatRoomItem
             name={room.name}
-            isClickRoom={activeId === room.id ? true : false}
+            isClickRoom={activeRoomId === room.id ? true : false}
             onClickRoom={() => handleClickRoom(room.id)}
+            onClickDeleteRoom={() => handleClickDeleteRoom(room.id)}
           />
         </Link>
       ))}
       <Dialog
+        isAddRoom
+        title="ADD ROOM"
         openDialog={openDialog}
         closeDialog={handleCloseDialog}
-        roomName={handleGetRoomName}
+        data={handleGetRoomName}
       />
     </ChatRoomStyled>
   );

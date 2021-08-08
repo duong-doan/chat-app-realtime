@@ -7,8 +7,9 @@ const NavbarStyled = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 0 20px 0 8px;
   height: 100px;
+
   img {
     width: 80px;
     height: 80px;

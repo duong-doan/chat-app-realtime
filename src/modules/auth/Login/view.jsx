@@ -1,11 +1,12 @@
-import styled from "styled-components";
 import React, { useEffect } from "react";
-import Button from "../../../components/Button";
 import { Typography } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import * as authActions from "./store/actions";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import styled from "styled-components";
+import Button from "../../../components/Button";
 import useAuth from "./services/useAuth";
+import * as authActions from "./store/actions";
+
 const LoginStyled = styled.div`
   display: flex;
   justify-contents: center;
@@ -17,11 +18,11 @@ const Login = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { isRequesting, isAuthen } = useAuth();
-
   useEffect(() => {
-    if (isAuthen && !isRequesting) history.push("/chat");
-  }, [isRequesting, isAuthen]);
-
+    if (isAuthen && !isRequesting) {
+      history.push("/chat");
+    }
+  }, [isAuthen, isRequesting]);
   const handleClickFb = () => {
     dispatch(authActions.getUserProfileRequest());
   };

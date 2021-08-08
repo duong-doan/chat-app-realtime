@@ -4,11 +4,12 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-// import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 import { useState } from "react";
+import { Fragment } from "react";
+import CustomizedHook from "../Autocomplete";
 
 const useStyles = makeStyles({
   customDialogTitle: {
@@ -21,51 +22,80 @@ const useStyles = makeStyles({
   },
 });
 
-export default function CustomDialog({ openDialog, closeDialog, roomName }) {
-  const [value, setValue] = useState("");
+export default function CustomDialog({
+  openDialog,
+  closeDialog,
+  data,
+  title,
+  isAddRoom,
+  optionsSelect,
+}) {
+  const [value, setValue] = useState({
+    username: "",
+    name: "",
+    description: "",
+  });
 
   const classes = useStyles();
   const handleCloseDialog = () => {
     closeDialog();
   };
-  const handleOnChangeInput = (e) => {
-    setValue(e.target.value);
-  };
+
   const handleSubmit = (e) => {
+    console.log(value);
     e.preventDefault();
-    roomName(value);
-    setValue("");
+    data(value);
+    setValue({
+      username: "",
+      name: "",
+      description: "",
+    });
+    closeDialog();
   };
 
   return (
-    <div>
-      <Dialog open={openDialog} aria-labelledby="form-dialog-title">
+    <Dialog open={openDialog} aria-labelledby="form-dialog-title">
+      <form onSubmit={handleSubmit}>
         <DialogTitle
           className={classes.customDialogTitle}
           id="form-dialog-title"
         >
-          ADD ROOM
+          {title}
         </DialogTitle>
         <DialogContent>
-          {/* <DialogContentText>Name of room</DialogContentText> */}
-          <form action="" onSubmit={handleSubmit}>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Room name"
-              placeholder=""
-              type="text"
-              value={value}
-              onChange={handleOnChangeInput}
-              fullWidth
-            />
-          </form>
+          {!isAddRoom && <CustomizedHook optionsSelect={optionsSelect} />}
+          {isAddRoom && (
+            <Fragment>
+              <TextField
+                autoFocus
+                margin="dense"
+                id="name"
+                label="Room name"
+                type="text"
+                value={value.name}
+                onChange={(e) => {
+                  setValue({ ...value, name: e.target.value });
+                }}
+                fullWidth
+              />
+              <TextField
+                margin="dense"
+                id="description"
+                label="Description"
+                type="text"
+                value={value.description}
+                onChange={(e) =>
+                  setValue({ ...value, description: e.target.value })
+                }
+                fullWidth
+              />
+            </Fragment>
+          )}
         </DialogContent>
         <DialogActions>
           <Button
             className={classes.customBtnAdd}
-            onClick={handleCloseDialog}
+            type="submit"
             color="primary"
           >
             Add
@@ -74,15 +104,19 @@ export default function CustomDialog({ openDialog, closeDialog, roomName }) {
             Cancel
           </Button>
         </DialogActions>
-      </Dialog>
-    </div>
+      </form>
+    </Dialog>
   );
 }
 
 CustomDialog.propTypes = {
   openDialog: PropTypes.bool.isRequired,
   closeDialog: PropTypes.func.isRequired,
-  roomName: PropTypes.func.isRequired,
+  data: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  isAddRoom: PropTypes.bool.isRequired,
+  pressEnter: PropTypes.func,
+  optionsSelect: PropTypes.array,
 };
 
 CustomDialog.defaultProps = {};
