@@ -1,6 +1,6 @@
 import * as types from "./constants";
 
-export const initStateAuth = {
+const initStateAuth = {
   profile: {},
   isRequesting: true,
   isAuthentication: false,
@@ -8,22 +8,15 @@ export const initStateAuth = {
 
 const reducer = (state = initStateAuth, action) => {
   switch (action.type) {
-    case types.GET_USER_PROFILE_REQUEST:
-      return { ...state };
-
-    case types.GET_USER_PROFILE_SUCCESS:
+    case types.SIGN_IN_USER_FIREBASE_SUCCESS: {
+      console.log("reducer", action.payload);
       return {
         ...state,
-        profile: action.payload,
-        isRequesting: false,
-        isAuthentication: true,
       };
-
-    case types.GET_USER_PROFILE_FAIL:
-      return { ...state };
+    }
 
     default:
-      return state;
+      return { ...state };
   }
 };
 

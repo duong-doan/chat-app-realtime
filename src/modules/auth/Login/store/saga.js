@@ -1,33 +1,44 @@
-import { fork, put, takeEvery } from "redux-saga/effects";
-import { addDocument, signInFbFirebase } from "../services/useAuth";
+import { call, fork, put, takeEvery } from "redux-saga/effects";
+import { signUpUserBasic, signInUserBasic } from "../services/useAuth";
+import {
+  signInUserFirebaseFailed,
+  signInUserFirebaseSuccess,
+  signUpUserFirebaseFailed,
+} from "./actions";
 import * as types from "./constants";
 
-function* getUser() {
-  const result = yield signInFbFirebase();
+function* signUpUserFirebaseRequestMid(action) {
+  const { email, password } = action.payload;
   try {
-    const {
-      additionalUserInfo: {
-        profile: { email, name, id, picture },
-        isNewUser,
-      },
-    } = result;
-    const getUserFb = {
-      email,
-      name,
-      photoUrl: picture?.data?.url,
-      uid: id,
-    };
-    if (isNewUser) {
-      addDocument("users", getUserFb);
-    }
-    yield put({ type: types.GET_USER_PROFILE_SUCCESS, payload: getUserFb });
-  } catch (err) {
-    yield put({ type: types.GET_USER_PROFILE_FAIL, err });
+    const result = yield call(signUpUserBasic, { email, password });
+    console.log("saga", result);
+  } catch (error) {
+    yield put(signUpUserFirebaseFailed(error));
+  }
+}
+
+function* signInUserFirebaseRequestMid(action) {
+  const { email, password } = action.payload;
+  try {
+    const result = yield call(signInUserBasic, { email, password });
+    console.log("saga", result);
+    yield put(signInUserFirebaseSuccess(result?.user));
+    yield;
+  } catch (error) {
+    yield put(signInUserFirebaseFailed(error.message));
   }
 }
 
 function* watchAuthSaga() {
-  yield takeEvery(types.GET_USER_PROFILE_REQUEST, getUser);
+  // yield takeEvery(types.GET_USER_PROFILE_REQUEST, getUser);
+  yield takeEvery(
+    types.SIGN_UP_USER_FIREBASE_REQUEST,
+    signUpUserFirebaseRequestMid
+  );
+  yield takeEvery(
+    types.SIGN_IN_USER_FIREBASE_REQUEST,
+    signInUserFirebaseRequestMid
+  );
 }
 
 const authSaga = [fork(watchAuthSaga)];

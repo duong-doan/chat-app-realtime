@@ -1,11 +1,13 @@
+import React from "react";
+import { Typography, Button } from "@material-ui/core";
 import styled from "styled-components";
-import React, { useEffect } from "react";
-import Button from "../../../components/Button";
-import { Typography } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
-import * as authActions from "./store/actions";
-import { useDispatch } from "react-redux";
-import useAuth from "./services/useAuth";
+import {
+  sigInWithFacebook,
+  sigInWithGoogle,
+} from "../../../services/authService";
+import LoginBasic from "./components/LoginBasic";
+import RegisterBasic from "./components/RegisterBasic";
+
 const LoginStyled = styled.div`
   display: flex;
   justify-contents: center;
@@ -14,20 +16,14 @@ const LoginStyled = styled.div`
 `;
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const { isRequesting, isAuthen } = useAuth();
-
-  useEffect(() => {
-    if (isAuthen && !isRequesting) history.push("/chat");
-  }, [isRequesting, isAuthen]);
-
   const handleClickFb = () => {
-    dispatch(authActions.getUserProfileRequest());
+    sigInWithFacebook();
   };
 
   const handleClickGg = () => {
-    alert("Gg");
+    sigInWithGoogle((user) => {
+      console.log(user);
+    });
   };
 
   return (
@@ -39,7 +35,8 @@ const Login = () => {
         variant="outlined"
         color="primary"
         className="my-2"
-        onclick={handleClickFb}
+        onClick={handleClickFb}
+        size="large"
       >
         Login with Facebook
       </Button>
@@ -47,10 +44,13 @@ const Login = () => {
         variant="outlined"
         color="secondary"
         className="my-2"
-        onclick={handleClickGg}
+        onClick={handleClickGg}
+        size="large"
       >
         Login with Google
       </Button>
+      <LoginBasic />
+      <RegisterBasic />
     </LoginStyled>
   );
 };

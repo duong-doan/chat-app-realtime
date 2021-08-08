@@ -1,5 +1,5 @@
-import { createSelector } from "reselect";
-import { useSelector } from "react-redux";
+import { createSelector } from 'reselect';
+import { useSelector } from 'react-redux';
 
 const makeGetAuthProfile = () => {
   const selectAuthProfile = createSelector(

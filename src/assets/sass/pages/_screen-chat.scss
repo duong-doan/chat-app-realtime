@@ -1,0 +1,15 @@
+.screen-chat__wrap {
+  background-image: linear-gradient(to right, #ca82ca, rgb(214, 85, 214));
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 15px;
+
+  .wrap-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+  }
+}

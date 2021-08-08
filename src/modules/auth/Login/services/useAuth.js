@@ -1,30 +1,48 @@
-import firebase, {
-  auth,
-  db,
-  fbProvider,
-} from "../../../../firebase/configFirebase";
+import { db } from "../../../../firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
+import { auth } from "../../../../firebase/authStore";
 import {
-  makeGetAuthProfile,
-  makeGetIsRequesting,
-  makeGetIsAuthen,
-} from "../store/selectors";
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 
-export default function useAuth() {
-  const userProfile = makeGetAuthProfile();
-  const isRequesting = makeGetIsRequesting();
-  const isAuthen = makeGetIsAuthen();
-  return {
-    userProfile,
-    isRequesting,
-    isAuthen,
-  };
-}
+export const signUpUserBasic = async (data) => {
+  const { email, password } = data;
+  try {
+    const result = await createUserWithEmailAndPassword(auth, email, password);
+    return result.user;
+  } catch (error) {
+    return error;
+  }
+};
 
-export const signInFbFirebase = () => auth.signInWithPopup(fbProvider);
+export const signInUserBasic = async (data) => {
+  const { email, password } = data;
+  const result = await signInWithEmailAndPassword(auth, email, password);
+  return result;
+};
 
-export const addDocument = (collection, data) => {
-  db.collection(collection).add({
-    ...data,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+export const signOutUser = async () => {
+  const result = await onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log(user);
+    } else {
+      console.log("sign out");
+    }
   });
+  console.log(result);
+};
+
+export const getRoomsStore = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, "roomLists"));
+    let rooms = [];
+    querySnapshot.forEach((doc) => {
+      rooms = [...rooms, { ...doc.data(), id: doc.id }];
+    });
+    return rooms;
+  } catch (error) {
+    console.log(error);
+  }
 };

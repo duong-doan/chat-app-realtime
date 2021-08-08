@@ -6,8 +6,11 @@ const ButtonComponent = ({
   children,
   color,
   variant,
-  onclick,
+  onclick = () => {},
   className,
+  disabled,
+  type,
+  size,
 }) => {
   const handleClick = () => {
     onclick();
@@ -15,10 +18,13 @@ const ButtonComponent = ({
 
   return (
     <Button
+      type={type}
       variant={variant}
       color={color}
       className={className}
       onClick={handleClick}
+      disabled={disabled}
+      size={size}
     >
       {children}
     </Button>
@@ -26,11 +32,14 @@ const ButtonComponent = ({
 };
 
 ButtonComponent.propTypes = {
-  children: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
+  children: PropTypes.string,
+  color: PropTypes.string,
   variant: PropTypes.string.isRequired,
-  onclick: PropTypes.func.isRequired,
-  className: PropTypes.string.isRequired,
+  onclick: PropTypes.func,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  type: PropTypes.string,
+  size: PropTypes.string,
 };
 
 ButtonComponent.defaultProps = {};
