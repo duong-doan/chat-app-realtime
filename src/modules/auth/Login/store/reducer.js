@@ -1,29 +1,35 @@
-import * as types from "./constants";
+import * as types from './constants';
 
-export const initStateAuth = {
+const initStateAuth = {
   profile: {},
   isRequesting: true,
   isAuthentication: false,
+  userLists: [],
 };
 
 const reducer = (state = initStateAuth, action) => {
   switch (action.type) {
-    case types.GET_USER_PROFILE_REQUEST:
+    case types.GET_USER_PROFILE_REQUEST: {
       return { ...state };
+    }
 
-    case types.GET_USER_PROFILE_SUCCESS:
+    case types.GET_USER_PROFILE_SUCCESS: {
+      const data = [...state.userLists, action.payload];
       return {
         ...state,
         profile: action.payload,
         isRequesting: false,
         isAuthentication: true,
+        userLists: data,
       };
+    }
 
-    case types.GET_USER_PROFILE_FAIL:
+    case types.GET_USER_PROFILE_FAIL: {
       return { ...state };
+    }
 
     default:
-      return state;
+      return { ...state };
   }
 };
 

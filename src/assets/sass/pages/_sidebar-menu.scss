@@ -1,0 +1,121 @@
+@import '../base/variables';
+
+#nav-toggle:checked {
+  & ~ #nav-content,
+  & ~ #nav-footer {
+    width: $navbar-width-min;
+  }
+
+  & ~ #nav-content {
+    .nav-button {
+      span {
+        opacity: 0;
+        transition: opacity 0.1s;
+      }
+      .fas {
+        min-width: calc(100% - 16px);
+      }
+    }
+  }
+}
+
+#nav-bar {
+  width: inherit;
+  position: absolute;
+  left: 1vw;
+  top: 1vw;
+  height: calc(100% - 2vw);
+  background: $navbar-dark-primary;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  overflow: hidden;
+  user-select: none;
+  padding-top: 30px;
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+}
+
+#nav-content {
+  margin: -16px 0;
+  padding: 16px 0;
+  position: relative;
+  flex: 1;
+  background: $navbar-dark-primary;
+  box-shadow: 0 0 0 16px $navbar-dark-primary;
+  direction: rtl;
+  overflow-x: hidden;
+  transition: width 0.2s;
+}
+
+#nav-content-highlight {
+  position: absolute;
+  left: 16px;
+  top: -54 - 16px;
+  width: calc(100% - 16px);
+  height: 54px;
+  background: $background;
+  border-radius: 16px 0 0 16px;
+  transition: top 0.2s;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 16px 16px $background;
+  }
+
+  &:after {
+    top: 100%;
+    box-shadow: 16px -16px $background;
+  }
+}
+
+.nav-button {
+  position: relative;
+  margin-left: 16px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  color: $background;
+  direction: ltr;
+  cursor: pointer;
+  z-index: 1;
+  transition: color 0.2s;
+
+  span {
+    transition: opacity 1s;
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+
+  .fas {
+    transition: min-width 0.2s;
+    font-size: 1.8rem;
+    margin-right: 10px;
+  }
+
+  @for $i from 1 through 8 {
+    &:nth-of-type(#{$i}):hover {
+      color: $navbar-dark-primary;
+
+      & ~ #nav-content-highlight {
+        top: ($i - 1) * 54 + 16px;
+      }
+    }
+  }
+}
+
+#nav-bar .fas {
+  min-width: 3rem;
+  text-align: center;
+}

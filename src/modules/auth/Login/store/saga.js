@@ -1,6 +1,10 @@
-import { fork, put, takeEvery } from "redux-saga/effects";
-import { addDocument, signInFbFirebase } from "../services/useAuth";
-import * as types from "./constants";
+import { fork, put, takeEvery } from 'redux-saga/effects';
+import {
+  // addDocument,
+  signInFbFirebase,
+} from '../services/useAuth';
+import { getUserProfileSuccess, getUserProfileFail } from './actions';
+import * as types from './constants';
 
 function* getUser() {
   const result = yield signInFbFirebase();
@@ -16,13 +20,14 @@ function* getUser() {
       name,
       photoUrl: picture?.data?.url,
       uid: id,
+      role: 'user',
     };
     if (isNewUser) {
-      addDocument("users", getUserFb);
+      // addDocument('users', getUserFb);
     }
-    yield put({ type: types.GET_USER_PROFILE_SUCCESS, payload: getUserFb });
+    yield put(getUserProfileSuccess(getUserFb));
   } catch (err) {
-    yield put({ type: types.GET_USER_PROFILE_FAIL, err });
+    yield put(getUserProfileFail(err));
   }
 }
 

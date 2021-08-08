@@ -1,30 +1,24 @@
-import firebase, {
-  auth,
-  db,
-  fbProvider,
-} from "../../../../firebase/configFirebase";
-import {
-  makeGetAuthProfile,
-  makeGetIsRequesting,
-  makeGetIsAuthen,
-} from "../store/selectors";
+import { db } from '../../../../firebase/firestore';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 
-export default function useAuth() {
-  const userProfile = makeGetAuthProfile();
-  const isRequesting = makeGetIsRequesting();
-  const isAuthen = makeGetIsAuthen();
-  return {
-    userProfile,
-    isRequesting,
-    isAuthen,
-  };
-}
+export const addDocStore = async (data) => {
+  try {
+    const docRef = await addDoc(collection(db, 'users'), data);
+    console.log(docRef);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-export const signInFbFirebase = () => auth.signInWithPopup(fbProvider);
-
-export const addDocument = (collection, data) => {
-  db.collection(collection).add({
-    ...data,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-  });
+export const getRoomsStore = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'roomLists'));
+    let rooms = [];
+    querySnapshot.forEach((doc) => {
+      rooms = [...rooms, { ...doc.data(), id: doc.id }];
+    });
+    return rooms;
+  } catch (error) {
+    console.log(error);
+  }
 };
