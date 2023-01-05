@@ -19,3 +19,45 @@ export const getUserProfileFail = (err) => {
     payload: err,
   };
 };
+
+export const signUpUserFirebaseRequest = (data) => {
+  return {
+    type: types.SIGN_UP_USER_FIREBASE_REQUEST,
+    payload: data,
+  };
+};
+
+export const signUpUserFirebaseSuccess = (data) => {
+  return {
+    type: types.SIGN_UP_USER_FIREBASE_SUCCESS,
+    payload: data,
+  };
+};
+
+export const signUpUserFirebaseFailed = (error) => {
+  return {
+    type: types.SIGN_UP_USER_FIREBASE_FAILED,
+    payload: error,
+  };
+};
+
+export const signInUserFirebaseRequest = (data) => {
+  return {
+    type: types.SIGN_IN_USER_FIREBASE_REQUEST,
+    payload: data,
+  };
+};
+
+export const signInUserFirebaseSuccess = (data) => {
+  return {
+    type: types.SIGN_IN_USER_FIREBASE_SUCCESS,
+    payload: data,
+  };
+};
+
+export const signInUserFirebaseFailed = (error) => {
+  return {
+    type: types.SIGN_IN_USER_FIREBASE_FAILED,
+    payload: error,
+  };
+};

@@ -10,6 +10,7 @@ const ButtonComponent = ({
   className,
   disabled,
   type,
+  size,
 }) => {
   const handleClick = () => {
     onclick();
@@ -23,6 +24,7 @@ const ButtonComponent = ({
       className={className}
       onClick={handleClick}
       disabled={disabled}
+      size={size}
     >
       {children}
     </Button>
@@ -37,6 +39,7 @@ ButtonComponent.propTypes = {
   className: PropTypes.string,
   disabled: PropTypes.bool,
   type: PropTypes.string,
+  size: PropTypes.string,
 };
 
 ButtonComponent.defaultProps = {};

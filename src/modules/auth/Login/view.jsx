@@ -1,12 +1,12 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import styled from 'styled-components';
-import Button from '../../../components/Button';
 import {
   sigInWithFacebook,
   sigInWithGoogle,
 } from '../../../services/authService';
 import LoginBasic from './components/LoginBasic';
+import RegisterBasic from './components/RegisterBasic';
 
 const LoginStyled = styled.div`
   display: flex;
@@ -35,7 +35,8 @@ const Login = () => {
         variant='outlined'
         color='primary'
         className='my-2'
-        onclick={handleClickFb}
+        onClick={handleClickFb}
+        size='large'
       >
         Login with Facebook
       </Button>
@@ -43,11 +44,13 @@ const Login = () => {
         variant='outlined'
         color='secondary'
         className='my-2'
-        onclick={handleClickGg}
+        onClick={handleClickGg}
+        size='large'
       >
         Login with Google
       </Button>
       <LoginBasic />
+      <RegisterBasic />
     </LoginStyled>
   );
 };

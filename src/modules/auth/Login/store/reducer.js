@@ -9,23 +9,11 @@ const initStateAuth = {
 
 const reducer = (state = initStateAuth, action) => {
   switch (action.type) {
-    case types.GET_USER_PROFILE_REQUEST: {
-      return { ...state };
-    }
-
-    case types.GET_USER_PROFILE_SUCCESS: {
-      const data = [...state.userLists, action.payload];
+    case types.SIGN_IN_USER_FIREBASE_SUCCESS: {
+      console.log('reducer', action.payload);
       return {
         ...state,
-        profile: action.payload,
-        isRequesting: false,
-        isAuthentication: true,
-        userLists: data,
       };
-    }
-
-    case types.GET_USER_PROFILE_FAIL: {
-      return { ...state };
     }
 
     default:

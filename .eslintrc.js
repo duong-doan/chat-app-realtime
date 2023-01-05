@@ -22,7 +22,7 @@ module.exports = {
     'no-console': 'off',
 
     // specify whether double or single quotes should be used
-    quotes: ['error', 'single'],
+    quotes: 'off',
 
     // disallow un-paren"d mixes of different operators
     // https://eslint.org/docs/rules/no-mixed-operators
